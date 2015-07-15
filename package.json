@@ -1,0 +1,8 @@
+{
+  "name": "minimal-express-chat-app",
+  "version": "0.0.1",
+  "description": "Minimal express chat app.",
+  "dependencies": {
+    "express": "^4.13.1"
+  }
+}

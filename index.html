@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Sinatra/Express Chat</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font: 13px Helvetica, Arial; }
+      p { display: inline-block; float: left; margin: 10px 25px 10px 10px; width: 300px; }
+      form { padding: 0px; width: 100%; }
+      form input { border: solid 1px #333; padding: 10px; width: 100%; }
+      form button { display:none; }
+      #messages { list-style-type: none; margin: 0; padding: 0; }
+      #messages li { padding: 10px; }
+      #messages li:nth-child(odd) { background: #eee; }
+    </style>
+  </head>
+  <body>
+    <p>
+      A connection to localhost:3009 is established and the server starts sending json
+      chunks back to the client which are in turn displayed. Once the server has
+       completed it's task, it will close the connection.
+    </p>
+
+    <p>
+      While the connection is open, you can type stuff in the input and it will come
+      back reversed. Once the connection is closed (by the server), the input is
+      disabled and you will need to refresh the page to restart the example.
+    </p>
+
+    <p>
+      If <em>you</em> want to close the connection, type 'close'.
+    </p>
+
+    <form id='chat' action=''>
+      <input id='message' autocomplete='off' placeholder='Hurry, type something' /><button>Reversify!</button>
+    </form>
+
+    <ul id='messages'></ul>
+
+    <script>
+      var input = document.getElementById('message');
+
+      var list = document.getElementById('messages');
+      input.focus();
+
+      var form = document.querySelector('form#chat');
+
+      var onFormSubmit = function(e) {
+        e.preventDefault();
+
+        if ( socket.readyState == 1 ) {
+          socket.send(input.value);
+          input.value = '';
+        } else {
+
+          window.location.reload();
+        }
+      };
+
+      form.addEventListener('submit', onFormSubmit);
+
+      var appendItem = function (str) {
+        var item = document.createElement('li');
+        item.innerText = str;
+        list.appendChild(item);
+      }
+
+      var socket = new WebSocket('ws://localhost:3009');
+      socket.onopen = function () {
+        appendItem('socket.onopen');
+      }
+
+      socket.onmessage = function (msg) {
+        appendItem('socket.onmessage: ' + msg.data);
+      }
+
+      socket.onclose = function () {
+        appendItem('socket.onclose');
+        input.setAttribute('disabled', 'disabled');
+        input.value = 'WebSocket connection is closed and the example is complete. Reload page?';
+        form.removeEventListener('submit', onFormSubmit);
+      }
+    </script>
+  </body>
+</html>
