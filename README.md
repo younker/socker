@@ -20,15 +20,15 @@ open http://localhost:3010
 #### Terminal
 ```
 --- projects/socker ‹master* AM› » bundle exec ruby sinatra.rb -p 3009 &
-[1] 17421
---- projects/socker ‹master* AM› » == Sinatra (v1.4.6) has taken the stage on 3009 for development with backup from Thin
+Sinatra (v1.4.6) has taken the stage on 3009 for development with backup from Thin
 Thin web server (v1.6.3 codename Protein Powder)
 Maximum connections set to 1024
 Listening on localhost:3009, CTRL+C to stop
+[1] 17421
 
 --- projects/socker ‹master* AM› » node express.js &
+listening on *:3010
 [2] 17502
---- projects/socker ‹master* AM› » listening on *:3010
 On Open
 On Close
 127.0.0.1 - - [15/Jul/2015:13:31:21 -0700] "GET / HTTP/1.1" 200 - 9.7507
